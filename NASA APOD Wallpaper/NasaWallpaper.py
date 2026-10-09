@@ -4,6 +4,8 @@ import os
 import sys
 #Imports platform module for getting OS information
 import platform
+#Imports subprocess module for running terminal commands like osascript inside python
+import subprocess
 #Imports module for API calls and downloading files
 import requests
 #Imports module for reading .env files. Structured this way instead of import dotenv & dotenv.load_dotenv()
@@ -51,10 +53,25 @@ image_response = requests.get(image_url)
 with open(image_path, "wb") as file:
     file.write(image_response.content)
 
-#Gets the platform the computer is on and stores it in platform variable
+#You have to use AppleScript to set the wallpaper so this is the script. ''' is for multi-line,f allows variable inside string, and {} is to reference variable inside python
+apple_wallpaper_script = f'''
+tell application "System Events"
+    tell desktop 1
+        set picture to "{image_path}"
+    end tell
+end tell
+'''
+
+#Gets the platform the computer is on and stores it in computer_os variable
 computer_os = platform.system()
 print(computer_os)
+#Checks if computer_os variable is Windows or Mac and runs wallpaper set depending on answer
 if computer_os == "Windows":
     print("OS is Windows")
 elif computer_os == "Darwin":
     print("OS is MacOS")
+    try:
+        #Calls run function from subprocess module and then runs terminal commands like osascript in MacOS. Runs the apple wallpaper script
+        subprocess.run(["osascript", "-e", apple_wallpaper_script], check=True)
+    except:
+        sys.exit("Setting Desktop Wallpaper Failed!")
