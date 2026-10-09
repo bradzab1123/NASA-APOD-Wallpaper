@@ -10,8 +10,6 @@ import subprocess
 import ctypes
 #Imports module for API calls and downloading files
 import requests
-#Imports module for reading .env files. Structured this way instead of import dotenv & dotenv.load_dotenv()
-from dotenv import load_dotenv
 
 #Base URL for NASA API
 base_url = "https://science.nasa.gov/wp-json/wp/v2/apod-basic"
