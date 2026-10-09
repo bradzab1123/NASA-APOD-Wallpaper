@@ -6,6 +6,8 @@ import sys
 import platform
 #Imports subprocess module for running terminal commands like osascript inside python
 import subprocess
+#Imports ctypes module for setting Windows desktop wallpaper
+import ctypes
 #Imports module for API calls and downloading files
 import requests
 #Imports module for reading .env files. Structured this way instead of import dotenv & dotenv.load_dotenv()
@@ -13,7 +15,6 @@ from dotenv import load_dotenv
 
 #Calls load_dotenv to read the .env file. Import just makes it available
 load_dotenv()
-
 #NASA API Key stored in a variable. load_dotenv function copies values from .env into environment variable and os.getenv reads from environment variable.
 api_key = os.getenv("NASA_API_KEY")
 #Checks if the NASA_API_KEY is set and exits the script if it doesn't
@@ -62,12 +63,31 @@ tell application "System Events"
 end tell
 '''
 
+#Function to change Desktop wallpaper in Windows to image in path
+def change_wallpaper(image_path):
+    # Constants for setting the wallpaper
+    SPI_SETDESKWALLPAPER = 20  # Action to change wallpaper
+    SPIF_UPDATEINIFILE = 0x01  # Update user profile
+    SPIF_SENDWININICHANGE = 0x02  # Notify change to system
+
+    try:
+        # Call Windows API to change wallpaper
+        ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, image_path,
+                                                   SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE)
+        return True
+    except Exception as e:
+        # Print error message if wallpaper change fails
+        print(f"Error changing wallpaper: {e}")
+        return False
+
 #Gets the platform the computer is on and stores it in computer_os variable
 computer_os = platform.system()
 print(computer_os)
 #Checks if computer_os variable is Windows or Mac and runs wallpaper set depending on answer
 if computer_os == "Windows":
     print("OS is Windows")
+    #Runs change_wallpaper function defined above
+    change_wallpaper(image_path)
 elif computer_os == "Darwin":
     print("OS is MacOS")
     try:
