@@ -34,6 +34,9 @@ data = response.json()
 
 #Gets media_type to see if APOD is image or video
 media_type = data[0]["media_type"]
+#Date of APOD stored as image_date
+image_date = data[0]["date"]
+
 #If APOD is not an image, exits script and prints
 if media_type != "image":
     sys.exit("APOD is not an image, skipping today.")
@@ -42,7 +45,7 @@ print("APOD is an image. Storing URL")
 image_url = data[0]["hdurl"]
 
 #Sets the path where the image will be saved by using ~ for the user's home directory, then join to be platform-agnostic
-image_path = os.path.expanduser(os.path.join("~", "Pictures", "APOD", "apod.jpg"))
+image_path = os.path.expanduser(os.path.join("~", "Pictures", "APOD", f"apod-{image_date}.jpg"))
 #Prints the image path
 print(image_path)
 #Makes directories for image to be stored in. os.path.dirname grabs only the folder part of the path so it doesnt create folder called "apod.jpg"
@@ -82,7 +85,6 @@ def change_wallpaper(image_path):
 
 #Gets the platform the computer is on and stores it in computer_os variable
 computer_os = platform.system()
-print(computer_os)
 #Checks if computer_os variable is Windows or Mac and runs wallpaper set depending on answer
 if computer_os == "Windows":
     print("OS is Windows")
