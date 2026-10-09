@@ -1,3 +1,17 @@
-*.env
+# Secrets - never commit your real API key
+.env
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Editor settings
 .vscode/
-*.DS_Store
