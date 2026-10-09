@@ -39,10 +39,11 @@ Automatically downloads NASA's **Astronomy Picture of the Day (APOD)** and sets 
 | Operating system | Windows 10 or 11 | A recent version of macOS |
 | Python | 3.9 or newer | 3.9 or newer |
 | Internet connection | Yes | Yes |
-| NASA API key (free) | Yes | Yes |
-| Python packages | `requests`, `python-dotenv` | `requests`, `python-dotenv` |
+| Python packages | `requests` | `requests` |
 
-**One `requirements.txt` covers both Windows and macOS.** The only extra packages the script needs are `requests` and `python-dotenv`. Everything else it uses (`os`, `sys`, `platform`, `subprocess`, `ctypes`) comes built into Python.
+**No NASA account or API key is needed.** The script reads NASA's public APOD feed directly.
+
+**One `requirements.txt` covers both Windows and macOS.** The only extra package the script needs is `requests`. Everything else it uses (`os`, `sys`, `platform`, `subprocess`, `ctypes`) comes built into Python.
 
 ---
 
@@ -56,9 +57,6 @@ python -m venv .venv          # macOS: python3 -m venv .venv
 # Install packages
 .venv\Scripts\python.exe -m pip install -r requirements.txt   # Windows
 .venv/bin/python -m pip install -r requirements.txt           # macOS
-
-# Add your key
-cp .env.example .env          # then edit .env and paste your NASA API key
 
 # Run
 .venv\Scripts\python.exe NasaWallpaper.py    # Windows
@@ -139,42 +137,7 @@ python3 -m venv .venv
 
 > These instructions call the virtual environment's Python directly (`.venv\Scripts\python.exe` or `.venv/bin/python`) instead of "activating" it. Activating isn't needed, and skipping it avoids the common PowerShell "running scripts is disabled on this system" error.
 
-### Step 4: Get a Free NASA API Key
-
-1. Go to <https://api.nasa.gov/>.
-2. Fill in your first name, last name, and email under **Generate API Key**, then submit.
-3. Your key is shown on screen and emailed to you. It's a long string of letters and numbers. Copy it.
-
-### Step 5: Put Your Key in a `.env` File
-
-The script reads your key from a file named exactly `.env` (dot-env, with no other extension) that sits in the project folder, next to `NasaWallpaper.py`.
-
-**Windows (PowerShell, from the project folder):**
-```powershell
-Copy-Item .env.example .env
-notepad .env
-```
-
-**macOS (Terminal, from the project folder):**
-```bash
-cp .env.example .env
-open -e .env
-```
-
-Replace the placeholder so the file contains one line with **your** key. Don't add quotes or spaces:
-
-```
-NASA_API_KEY=abc123YourRealKeyHere
-```
-
-Save and close the file.
-
-> ⚠️ **Never share your `.env` file or upload it to GitHub.** It's already listed in `.gitignore` so Git will ignore it.
->
-> **Windows:** If you create the file some other way, Notepad may secretly save it as `.env.txt`. In the *Save As* dialog, set "Save as type" to **All files**.
-> **macOS:** Finder hides files that start with a dot. Press `Cmd + Shift + .` in Finder to show them.
-
-### Step 6: Run It
+### Step 4: Run It
 
 **Windows:**
 ```powershell
@@ -192,6 +155,7 @@ If it works, you'll see output like this and your wallpaper will change:
 APOD is an image. Storing URL
 C:\Users\Jane\Pictures\APOD\apod-2026-10-07.jpg
 OS is Windows
+Successfully set wallpaper!
 ```
 
 **macOS first run:** a pop-up will say something like *"Terminal wants access to control System Events."* Click **OK**. That permission is what lets the script change your wallpaper. If you clicked **Don't Allow** by mistake, go to **System Settings → Privacy & Security → Automation → Terminal** and turn on **System Events**.
@@ -310,8 +274,7 @@ Old images are **not** deleted automatically. Some high-resolution APOD images a
 
 | Problem | Likely cause and fix |
 |---|---|
-| `No NASA API key found!` | The `.env` file is missing, is in the wrong folder, was saved as `.env.txt`, or the line isn't exactly `NASA_API_KEY=yourkey`. It must sit next to `NasaWallpaper.py`. |
-| `ModuleNotFoundError: No module named 'requests'` (or `'dotenv'`) | You ran the script with your system Python instead of the project's. Use `.venv\Scripts\python.exe` (Windows) or `.venv/bin/python` (macOS), and make sure Step 3 finished without errors. |
+| `ModuleNotFoundError: No module named 'requests'` | You ran the script with your system Python instead of the project's. Use `.venv\Scripts\python.exe` (Windows) or `.venv/bin/python` (macOS), and make sure Step 3 finished without errors. |
 | `APOD is not an image, skipping today.` | Normal. Today's APOD is a video. Your wallpaper stays as it was. |
 | `'python' is not recognized…` or the Microsoft Store opens | Python isn't on your PATH. Re-run the installer with **"Add python.exe to PATH"** checked, or use `py` instead of `python`. |
 | `running scripts is disabled on this system` | You tried to activate the virtual environment. You don't need to. Use the `.venv\Scripts\python.exe …` commands exactly as shown. |
@@ -340,9 +303,7 @@ Old images are **not** deleted automatically. Some high-resolution APOD images a
 NASA-APOD-Wallpaper/
 ├── NasaWallpaper.py   # The script
 ├── requirements.txt   # Python packages (same file for Windows and macOS)
-├── .env.example       # Template for your API key; copy it to .env
-├── .env               # Your real key (you create this; never committed)
-├── .gitignore         # Keeps .env, .venv, and other clutter out of Git
+├── .gitignore         # Keeps .venv and other clutter out of Git
 ├── LICENSE
 └── README.md
 ```

@@ -77,11 +77,8 @@ computer_os = platform.system()
 if computer_os == "Windows":
     print("OS is Windows")
     #Runs change_wallpaper function defined above
-    try:
-        change_wallpaper(image_path)
-        print("Successfully set wallpaper!")
-    except:
-        sys.exit("Setting Desktop Wallpaper Failed!")    
+    change_wallpaper(image_path)
+    print("Successfully set wallpaper!")    
 elif computer_os == "Darwin":
     print("OS is MacOS")
     try:
