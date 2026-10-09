@@ -53,7 +53,8 @@ with open(image_path, "wb") as file:
 
 #Gets the platform the computer is on and stores it in platform variable
 computer_os = platform.system()
+print(computer_os)
 if computer_os == "Windows":
     print("OS is Windows")
-elif computer_os == "MacOS":
+elif computer_os == "Darwin":
     print("OS is MacOS")
