@@ -49,19 +49,25 @@ Automatically downloads NASA's **Astronomy Picture of the Day (APOD)** and sets 
 
 ## Quick Start (for people comfortable with Python)
 
+**Windows (PowerShell):**
+```powershell
+git clone https://github.com/bradzab1123/NASA-APOD-Wallpaper.git
+cd NASA-APOD-Wallpaper
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe NasaWallpaper.py
+```
+
+**macOS (Terminal):**
 ```bash
 git clone https://github.com/bradzab1123/NASA-APOD-Wallpaper.git
 cd NASA-APOD-Wallpaper
-python -m venv .venv          # macOS: python3 -m venv .venv
-
-# Install packages
-.venv\Scripts\python.exe -m pip install -r requirements.txt   # Windows
-.venv/bin/python -m pip install -r requirements.txt           # macOS
-
-# Run
-.venv\Scripts\python.exe NasaWallpaper.py    # Windows
-.venv/bin/python NasaWallpaper.py            # macOS
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python NasaWallpaper.py
 ```
+
+> Windows and macOS use different paths: `.venv\Scripts\python.exe` on Windows, `.venv/bin/python` on macOS. Use only the commands for your system.
 
 ---
 
@@ -277,6 +283,7 @@ Old images are **not** deleted automatically. Some high-resolution APOD images a
 | `ModuleNotFoundError: No module named 'requests'` | You ran the script with your system Python instead of the project's. Use `.venv\Scripts\python.exe` (Windows) or `.venv/bin/python` (macOS), and make sure Step 3 finished without errors. |
 | `APOD is not an image, skipping today.` | Normal. Today's APOD is a video. Your wallpaper stays as it was. |
 | `'python' is not recognized…` or the Microsoft Store opens | Python isn't on your PATH. Re-run the installer with **"Add python.exe to PATH"** checked, or use `py` instead of `python`. |
+| Windows: `The term '.venv/bin/python' is not recognized…` | That's the macOS command. On Windows, use `.venv\Scripts\python.exe` instead. If that also isn't found, the virtual environment wasn't created; run `python -m venv .venv` from the project folder first. |
 | `running scripts is disabled on this system` | You tried to activate the virtual environment. You don't need to. Use the `.venv\Scripts\python.exe …` commands exactly as shown. |
 | macOS: `Setting Desktop Wallpaper Failed!` | The Automation permission was denied. Go to **System Settings → Privacy & Security → Automation** and allow Terminal (or Python) to control **System Events**. |
 | macOS: scheduled run does nothing | Check `/tmp/apod-wallpaper.log`. "Operation not permitted" usually means the project is inside Documents, Desktop, or Downloads. Move it to your home folder and update the paths in the `.plist`. |
